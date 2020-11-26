@@ -1,0 +1,62 @@
+Question 1: Which countries have the most Invoices?
+
+SELECT c.country, COUNT(i.customerid) as Total
+From Invoice i
+INNER JOIN Customer c
+on  c.customerid=i.customerid
+GROUP BY c.country
+ORDER By Total DESC; 
+
+Question 2: Who is writing the rock music?
+
+SELECT ar.artistid, ar.name, Count(a.title) as Songs
+FROM Genre g 
+JOIN Track t 
+ON g.GenreId = t.genreid
+JOIN Album a
+ON a.AlbumId = t.albumid
+JOIN Artist ar 
+ON a.artistid = ar.artistid
+where g.name = "Rock"
+Group by ar.name
+order by Songs DESC
+limit 10;
+
+Question 3
+Find which artist has earned the most according to the InvoiceLines?
+
+SELECT ar.name, SUM((IL.quantity)*(IL.unitprice)) as AmountSpent
+FROM Artist ar 
+JOIN Album a 
+ON ar.ArtistId= a.ArtistId
+JOIN Track t 
+ON a.AlbumId= t.AlbumId
+JOIN InvoiceLine IL
+ON t.TrackId= IL.TrackId
+JOIN Invoice I 
+ON IL.InvoiceId = I.invoiceid
+GROUP BY ar.name
+Order BY AmountSpent DESC
+LIMIT 5;
+
+Q4: What is the average Milliseconds of track for selected title Albums ("Iron Maiden", "Led Zeppelin", "Deep Purple", "Metallica", "U2") 
+and Album.Title In ("A Matter of Life and Death",
+"BBC Sessions [Disc 1] [Live]",
+"MK III The Final Concerts [Disc 1]",
+"Garage Inc. (Disc 1) for each Artist?
+
+SELECT a.Name, avg(t.Milliseconds) as Avarge_of_Milliseconds
+FROM Artist a
+JOIN Album al
+on a.artistid=al.artistid
+JOIN Track t
+on t.albumid=al.albumid
+WHERE a.Name In ("Iron Maiden", "Led Zeppelin", "Deep Purple", "Metallica", "U2") 
+and al.title
+In ("A Matter of Life and Death",
+"BBC Sessions [Disc 1] [Live]",
+"MK III The Final Concerts [Disc 1]",
+"Garage Inc. (Disc 1)",
+"Achtung Baby")
+GROUP by 1
+ORDER by 2 DESC;
